@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Button</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: Arial, sans-serif;
+        }
+        
+        body.light-mode {
+            background-color: white;
+            color: black;
+        }
+        
+        body.dark-mode {
+            background-color: black;
+            color: white;
+        }
+        
+        .power-button-container {
+            text-align: center;
+        }
+        
+        .power-button {
+            background-color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .power-button:active {
+            transform: scale(0.95);
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .power-icon {
+            font-size: 2rem;
+            color: black;
+            transition: color 0.3s;
+        }
+        
+        body.dark-mode .power-button {
+            background-color: #333333; /* Darker background color for better visibility in dark mode */
+        }
+        
+        body.dark-mode .power-icon {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="power-button-container">
+        <button id="power-button" class="power-button">
+            <i id="power-icon" class="fas fa-power-off power-icon"></i>
+        </button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const powerButton = document.getElementById('power-button');
+            const powerIcon = document.getElementById('power-icon');
+            const body = document.body;
+        
+            // Check the initial theme and set it accordingly
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) {
+                body.classList.add(currentTheme);
+                updateIconColor(currentTheme);
+            } else {
+                body.classList.add('light-mode');
+                updateIconColor('light-mode');
+            }
+        
+            // Toggle theme on button click
+            powerButton.addEventListener('click', () => {
+                if (body.classList.contains('light-mode')) {
+                    body.classList.remove('light-mode');
+                    body.classList.add('dark-mode');
+                    localStorage.setItem('theme', 'dark-mode');
+                    updateIconColor('dark-mode');
+                } else {
+                    body.classList.remove('dark-mode');
+                    body.classList.add('light-mode');
+                    localStorage.setItem('theme', 'light-mode');
+                    updateIconColor('light-mode');
+                }
+            });
+
+            // Function to update the icon color based on the theme
+            function updateIconColor(theme) {
+                if (theme === 'dark-mode') {
+                    powerIcon.style.color = 'white';
+                } else {
+                    powerIcon.style.color = 'black';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
